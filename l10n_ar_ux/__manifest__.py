@@ -42,7 +42,7 @@
     ],
     'demo': [
     ],
-    'installable': False,
+    'installable': True,
     'auto_install': True,
     'application': False,
     'post_init_hook': 'post_init_hook',
