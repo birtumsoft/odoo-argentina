@@ -20,16 +20,21 @@ class AccountJournal(models.Model):
     )
     l10n_ar_is_pos = fields.Boolean(compute="_compute_l10n_ar_is_pos", store=True, readonly=False, string="Is AFIP POS?")
 
+
+    l10n_latam_country_code = fields.Char(
+        related='company_id.country_id.code', help='Technical field used to hide/show fields regarding the localization')
+
     @api.onchange('l10n_ar_is_pos')
     def _onchange_l10n_ar_is_pos(self):
         # TODO on v15 move to standar and maybe make l10n_ar_afip_pos_system computed stored
         if not self.l10n_ar_is_pos:
             self.l10n_ar_afip_pos_system = False
 
-    @api.depends('l10n_latam_country_code', 'type', 'l10n_latam_use_documents')
+    @api.depends('type', 'l10n_latam_use_documents')
     def _compute_l10n_ar_is_pos(self):
+        # x.l10n_latam_country_code == 'AR' and
         ar_sale_use_documents = self.filtered(
-            lambda x: x.l10n_latam_country_code == 'AR' and x.type == 'sale' and x.l10n_latam_use_documents)
+            lambda x:  x.type == 'sale' and x.l10n_latam_use_documents)
         ar_sale_use_documents.l10n_ar_is_pos = True
         (self - ar_sale_use_documents).l10n_ar_is_pos = False
 
