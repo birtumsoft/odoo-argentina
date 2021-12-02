@@ -96,7 +96,7 @@ class AccountMove(models.Model):
                 rec.l10n_latam_document_type_id.doc_code_prefix, number['point_of_sale'], number['invoice_number'])
 
             domain = [
-                ('type', '=', rec.type),
+                ('type', '=', rec.move_type),
                 # by validating name we validate l10n_latam_document_number and l10n_latam_document_type_id
                 '|', ('name', '=', old_name_compat), ('name', '=', rec.name),
                 ('company_id', '=', rec.company_id.id),
@@ -106,23 +106,23 @@ class AccountMove(models.Model):
             if rec.search(domain):
                 raise ValidationError(_('Vendor bill number must be unique per vendor and company.'))
 
-    @api.constrains('ref', 'type', 'partner_id', 'journal_id', 'invoice_date')
+    @api.constrains('ref', 'move_type', 'partner_id', 'journal_id', 'invoice_date')
     def _check_duplicate_supplier_reference(self):
         """ We make reference only unique if you are not using documents.
         Documents already guarantee to not encode twice same vendor bill """
         return super(
             AccountMove, self.filtered(lambda x: not x.l10n_latam_use_documents))._check_duplicate_supplier_reference()
-
-    def _get_name_invoice_report(self, report_xml_id):
-        """Use always argentinian like report (regardless use documents)"""
-        self.ensure_one()
-        if self.company_id.country_id.code == 'AR':
-            custom_report = {
-                'account.report_invoice_document_with_payments': 'l10n_ar.report_invoice_document_with_payments',
-                'account.report_invoice_document': 'l10n_ar.report_invoice_document',
-            }
-            return custom_report.get(report_xml_id) or report_xml_id
-        return super()._get_name_invoice_report(report_xml_id)
+    
+    #def _get_name_invoice_report(self):
+    #    """Use always argentinian like report (regardless use documents)"""
+    #    self.ensure_one()
+    #    if self.company_id.country_id.code == 'AR':
+    #        custom_report = {
+    #            'account.report_invoice_document_with_payments': 'l10n_ar.report_invoice_document_with_payments',
+    #            'account.report_invoice_document': 'l10n_ar.report_invoice_document',
+    #        }
+    #        return custom_report.get(report_xml_id) or report_xml_id
+    #    return super()._get_name_invoice_report()
 
     def _get_l10n_latam_documents_domain(self):
         self.ensure_one()
@@ -131,7 +131,7 @@ class AccountMove(models.Model):
             domain = [
                 ('id', 'in', self.journal_id.l10n_ar_document_type_ids.ids),
                 '|', ('code', 'in', self._get_l10n_ar_codes_used_for_inv_and_ref()),
-                ('internal_type', 'in', ['credit_note'] if self.type in ['out_refund', 'in_refund'] else ['invoice', 'debit_note']),
+                ('internal_type', 'in', ['credit_note'] if self.move_type in ['out_refund', 'in_refund'] else ['invoice', 'debit_note']),
             ]
         return domain
 
