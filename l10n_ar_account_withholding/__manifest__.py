@@ -41,6 +41,7 @@
         'demo/ir_parameter.xml',
     ],
     'depends': [
+        'l10n_ar',
         'account_withholding_automatic',
         'l10n_ar_ux',
     ],
