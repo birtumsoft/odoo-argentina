@@ -41,11 +41,12 @@
         'demo/ir_parameter.xml',
     ],
     'depends': [
+        'l10n_ar',
         'account_withholding_automatic',
         'l10n_ar_ux',
     ],
     'external_dependencies': {
-        'python': ['pyafipws'],
+        #'python': ['pyafipws'],
     },
     'installable': True,
     'name': 'Automatic Argentinian Withholdings on Payments',
