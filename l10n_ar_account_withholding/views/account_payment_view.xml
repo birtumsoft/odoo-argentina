@@ -47,7 +47,7 @@
                  <button type="object"
                         name="print_withholding_voucher" 
                         icon="fa-print"
-                        attrs="{'invisible': ['|', ('payment_method_code', '!=', ['withholding_in', 'withholding_out']), ('partner_type', '!=', 'supplier')]}"/>
+                        attrs="{'invisible': ['|', ('payment_method_code', 'not in', ['withholding_in', 'withholding_out']), ('partner_type', '!=', 'supplier')]}"/>
             </xpath>
         </field>
     </record>
