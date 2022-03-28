@@ -22,7 +22,8 @@ class AccountJournal(models.Model):
 
 
     l10n_latam_country_code = fields.Char(
-        related='company_id.country_id.code', help='Technical field used to hide/show fields regarding the localization')
+        related='company_id.country_id.code', help='Technical field used to hide/show fields regarding the localization',
+        string="Country code")
 
     @api.onchange('l10n_ar_is_pos')
     def _onchange_l10n_ar_is_pos(self):
