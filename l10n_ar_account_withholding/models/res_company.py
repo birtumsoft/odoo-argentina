@@ -1,7 +1,8 @@
 from odoo import models, fields, api, _
 # import odoo.tools as tools
 try:
-    from pyafipws.iibb import IIBB
+    pass
+    # from pyafipws.iibb import IIBB
 except ImportError:
     IIBB = None
 # from pyafipws.padron import PadronAFIP
