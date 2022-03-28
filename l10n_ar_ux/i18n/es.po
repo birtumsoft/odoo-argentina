@@ -263,7 +263,7 @@ msgstr "Contacto"
 #. module: l10n_ar_ux
 #: model:ir.model.fields,field_description:l10n_ar_ux.field_res_config_settings__l10n_ar_country_code
 msgid "Country Code"
-msgstr ""
+msgstr "Country code"
 
 #. module: l10n_ar_ux
 #: model:ir.model.fields,field_description:l10n_ar_ux.field_afip_activity__create_uid
