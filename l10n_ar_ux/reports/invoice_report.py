@@ -6,7 +6,7 @@ class AccountInvoiceReport(models.Model):
 
     _inherit = 'account.invoice.report'
 
-    currency_id = fields.Many2one(string='Company Currency', readonly=True)  # change label
+    currency_id = fields.Many2one('res.currency', string='Company Currency', readonly=True)  # change label
     invoice_currency_id = fields.Many2one('res.currency', string='Invoice Currency', readonly=True)
     line_id = fields.Many2one('account.move.line', string='Journal Item', readonly=True)
     price_unit = fields.Monetary('Unit Price', readonly=True, currency_field='invoice_currency_id',)
